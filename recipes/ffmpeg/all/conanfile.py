@@ -264,10 +264,11 @@ class FFMpegConan(ConanFile):
             args.append("--enable-openssl" if self.options.openssl else "--disable-openssl")
 
             if self.options.x264 or self.options.x265 or self.options.postproc:
-                args.append("--enable-gpl")
+                args.append('--enable-gpl')
+                enable_gpl = True
 
-            if self.options.fdk_aac:
-                args.append("--enable-nonfree")
+            if self.options.fdk_aac or (enable_gpl and self.options.openssl):
+                args.append('--enable-nonfree')
 
             if self.settings.os == "Linux":
                 args.append("--enable-alsa" if self.options.alsa else "--disable-alsa")
